@@ -1,17 +1,17 @@
 # My entry for the first case study in Data with Danny's 8weeksqlchallenge @https://8weeksqlchallenge.com/.
 
-# Case Study #1 - Danny's Diner
+## Case Study #1 - Danny's Diner
 
 ![image](https://user-images.githubusercontent.com/81259955/173590583-9cc31564-509c-4f19-9b72-25f5957d78ce.png)
 
 
-# Introduction
+## Introduction
 
 Danny seriously loves Japanese food so in the beginning of 2021, he decides to embark upon a risky venture and opens up a cute little restaurant that sells his 3 favourite foods: sushi, curry and ramen.
 
 Danny’s Diner is in need of your assistance to help the restaurant stay afloat - the restaurant has captured some very basic data from their few months of operation but have no idea how to use their data to help them run the business.
 
-# Problem statement 
+## Problem statement 
 
 Danny wants to use the data to answer a few simple questions about his customers, especially about their visiting patterns, how much money they’ve spent and also which menu items are their favourite. Having this deeper connection with his customers will help him deliver a better and more personalised experience for his loyal customers.
 
@@ -25,7 +25,7 @@ Danny has shared with you 3 key datasets for this case study:
 2.menu
 3.members
 
-# Solution
+## Solution
 
 First I created a database that will house the data tables to be used and set the named database as default to be used when running the queries
 
@@ -35,9 +35,9 @@ The USE statement tells MySQL to use the named database as the default (current)
 	
 	USE dannys_diner;
 	
-# Creating the tables and inserting values into it
+## Creating the tables and inserting values into it
 
-# sales
+## sales
 
 	CREATE table sales
 	(customer_id VARCHAR(1),
@@ -60,7 +60,7 @@ The USE statement tells MySQL to use the named database as the default (current)
 	('C','2021-01-01','3'),
 	('C','2021-01-07','3');
 	
-# menu
+## menu
 	CREATE table menu
 	(product_id INT references Sales(product_id),
 	product_name VARCHAR(15),
@@ -70,7 +70,7 @@ The USE statement tells MySQL to use the named database as the default (current)
 	('2','Curry','15'),
 	('3','Ramen','12');
 
-# member
+## member
 		CREATE table member
 		(customer_id VARCHAR(1) references Sales(customer_id),
 		join_date DATE);
@@ -78,14 +78,14 @@ The USE statement tells MySQL to use the named database as the default (current)
 		VALUES('A','2021-01-07'),
 		('B','2021-01-09');
 
-# Runing sql queries
+## Runing sql queries
 	SELECT * FROM sales;
 	SELECT * FROM menu;
 	SELECT * FROM member;
 	
-# Case study questions
+## Case study questions
 
-# What is the total amount each customer spent at the restaurant?
+## What is the total amount each customer spent at the restaurant?
 
 	SELECT sal.customer_id, SUM(men.price) AS total_spent
 	FROM sales sal
@@ -101,7 +101,7 @@ customer_id | total_spent |
    C  	    |	36        |
 
 
-# How many days has each customer visited the restaurant?
+## How many days has each customer visited the restaurant?
 
 	SELECT customer_id,
 	COUNT(DISTINCT order_date) AS visits
@@ -115,7 +115,7 @@ customer_id | visits |
    A	    |	4    |
    C  	    |	2    |
    
-# What was the first item from the menu purchased by each customer?
+## What was the first item from the menu purchased by each customer?
 
 	WITH ranked_products AS (
 	SELECT mb.customer_id,m.product_name,s.order_date,
@@ -138,7 +138,7 @@ B 	    | Curry       |     1           | 2021-01-01 |
 
 
 
-# What is the most purchased item on the menu and how many times was it purchased by all customers?
+## What is the most purchased item on the menu and how many times was it purchased by all customers?
 
 	SELECT men.product_name,
 	COUNT(sal.product_id) AS times_purchased
@@ -152,7 +152,7 @@ product_name | times_purchased |
  Ramen       |   8             |
 
 
-# Which item was the most popular for each customer?
+## Which item was the most popular for each customer?
 
 	SELECT men.product_name,
 	COUNT(sal.product_id) AS most_popular_item
@@ -166,7 +166,7 @@ product_name | most_popular_item |
 -----------  |:-------------:    | 
  Ramen       |   8               |
 
-# Which item was purchased first by the customer after they became a member?
+## Which item was purchased first by the customer after they became a member?
 
 	WITH ranked_products AS (
 	SELECT mb.customer_id,m.product_name,s.order_date,
@@ -190,7 +190,7 @@ B 	    | Curry       |     1           | 2021-01-11 |
 
 
 
-# Which item was purchased just before the customer became a member?
+## Which item was purchased just before the customer became a member?
 
 	WITH ranked_products AS (
 	SELECT mb.customer_id,m.product_name,s.order_date,
@@ -211,7 +211,7 @@ customer_id | product_name| purchased_first | order_date |
 A 	    | Sushi 	  | 	1 	    |2021-01-01  |
 B 	    | Curry       |     1           | 2021-01-01 |
 
-# What is the total items and amount spent for each member before they became a member?
+## What is the total items and amount spent for each member before they became a member?
 
 	WITH overalltotal_payments AS (
 	SELECT mb.customer_id,m.product_name,m.price
@@ -232,7 +232,7 @@ A 	    |  25	 |	 25   |
 B           |  3         | 40         |
 
 
-# If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+## If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
 	WITH points_per_purchase AS(
 	SELECT sal.customer_id,men.product_name,men.price,
@@ -254,7 +254,7 @@ B           |  3         | 40         |
     C 	     |  360          |
 
 
-# In the first week after a customer joins the program (including their join date) they earn 2x points on all items,
+## In the first week after a customer joins the program (including their join date) they earn 2x points on all items,
  not just sushi - how many points do customer A and B have at the end of January?
  
 	WITH points_per_purchase AS(
@@ -277,7 +277,7 @@ A	    |     10	     |
 B	    |      9	     |
 
 
-# Create a table adding the customer_id,order_date,product_name,price,and add a column to show customers who are members
+## Create a table adding the customer_id,order_date,product_name,price,and add a column to show customers who are members
 
 	SELECT sal.customer_id,sal.order_date,men.product_name,men.price,
 	CASE
@@ -307,7 +307,7 @@ C		|	 2021-01-01	|   Ramen	| 12	 |   N    |
 C		|	 2021-01-01	|   Ramen	| 12	 |  N     |
 C		|	 2021-01-07	|  Ramen	| 12	 |  N     |
 
-# Create a table adding the customer_id,order_date,product_name,price,and add a column to show ranking values for the records when customers are not yet part of the loyalty program
+## Create a table adding the customer_id,order_date,product_name,price,and add a column to show ranking values for the records when customers are not yet part of the loyalty program
 
 	With customers_list AS (
 	SELECT sal.customer_id,sal.order_date,men.product_name,men.price,
